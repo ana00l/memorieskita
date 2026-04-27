@@ -1,0 +1,96 @@
+body{
+    margin:0;
+    font-family:sans-serif;
+    background:black;
+    color:white;
+}
+
+/* LOGIN */
+#login{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+#content{
+    display:none;
+}
+
+input{
+    padding:10px;
+    border:none;
+    border-radius:5px;
+}
+button{
+    padding:10px 20px;
+    margin-top:10px;
+    background:#1db954;
+    border:none;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* PAGE */
+.page{
+    min-height:100vh;
+    padding:50px;
+    text-align:center;
+}
+
+/* HERO */
+.hero h1{
+    font-size:60px;
+}
+
+/* MUSIC */
+.music-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+    margin-top:30px;
+}
+
+.card{
+    background:#181818;
+    padding:15px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+    text-align:left;
+}
+.card:hover{
+    background:#282828;
+    transform:scale(1.05);
+}
+
+.card img{
+    width:100%;
+    border-radius:8px;
+}
+
+.card h3{
+    margin:5px 0;
+}
+.card p{
+    color:#aaa;
+}
+
+/* FOTO */
+.gallery img{
+    width:300px;
+    margin:20px;
+    border-radius:10px;
+}
+
+/* ANIMASI */
+.fade{
+    opacity:0;
+    transform:translateY(50px);
+    transition:1s;
+}
+.fade.show{
+    opacity:1;
+    transform:translateY(0);
+}
