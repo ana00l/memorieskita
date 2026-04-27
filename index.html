@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Memory Kita</title>
+
+<style>
+    body{
+        margin:0;
+        font-family:sans-serif;
+        background:black;
+        color:white;
+    }
+    
+    /* ===== LOGIN ===== */
+    .login-wrapper{
+        position:fixed;
+        inset:0;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background: linear-gradient(-45deg,#000,#1a1a1a,#111,#000);
+        background-size:400% 400%;
+        animation: bgMove 8s ease infinite;
+        z-index:9999;
+    }
+    
+    @keyframes bgMove{
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    
+    .login-card{
+        background:rgba(20,20,20,0.9);
+        padding:40px;
+        border-radius:15px;
+        text-align:center;
+        width:280px;
+        box-shadow:0 0 20px rgba(255,77,109,0.3);
+        animation: popIn 0.8s ease;
+    }
+    
+    @keyframes popIn{
+        from{opacity:0;transform:scale(0.8) translateY(20px);}
+        to{opacity:1;transform:scale(1) translateY(0);}
+    }
+    
+    .login-card input{
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:8px;
+        margin-bottom:15px;
+        outline:none;
+    }
+    
+    .login-card input:focus{
+        box-shadow:0 0 10px #ff4d6d;
+    }
+    
+    .login-card button{
+        width:100%;
+        padding:10px;
+        border:none;
+        border-radius:8px;
+        background:#ff4d6d;
+        color:white;
+        cursor:pointer;
+        transition:0.3s;
+    }
+    
+    .login-card button:hover{
+        transform:scale(1.05);
+    }
+    
+    #error{
+        color:red;
+        margin-top:10px;
+        font-size:12px;
+    }
+    
+    /* PAGE */
+    .page{
+        min-height:100vh;
+        padding:50px;
+        text-align:center;
+    }
+
+    .title{
+    font-size:40px;
+    opacity:0;
+    transform:translateY(20px);
+    animation: titleIn 1.2s ease forwards;
+    text-shadow:0 0 10px rgba(255,77,109,0.4);
+}
+
+@keyframes titleIn{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* typing efek glow halus */
+#typing{
+    opacity:0;
+    animation: typingFade 2s ease forwards;
+    animation-delay:1s;
+}
+
+@keyframes typingFade{
+    to{
+        opacity:1;
+    }
+}
+    
+    .hero{
+    animation: heroZoom 1.5s ease;
+}
+
+@keyframes heroZoom{
+    from{
+        transform:scale(1.1);
+        filter:blur(5px);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        filter:blur(0);
+        opacity:1;
+    }
+}
+    /* CAROUSEL */
+    .carousel{
+        display:flex;
+        gap:25px;
+        padding:20px;
+        overflow-x:auto;
+        scroll-snap-type:x mandatory;
+    }
+    
+    .carousel::-webkit-scrollbar{
+        display:none;
+    }
+    
+    .card{
+        min-width:220px;
+        background:#181818;
+        padding:15px;
+        border-radius:12px;
+        scroll-snap-align:center;
+    }
+    
+    .card img{
+        width:100%;
+        aspect-ratio:1/1;
+        object-fit:cover;
+        border-radius:8px;
+    }
+    
+    .info p{
+        color:#aaa;
+    }
+    
+    /* FOTO */
+    .foto-item{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:40px;
+        margin:60px 0;
+    }
+    
+    .foto-item img{
+        width:300px;
+        aspect-ratio:1/1;
+        object-fit:cover;
+        border-radius:10px;
+    }
+    
+    .text{
+        max-width:300px;
+        text-align:left;
+        color:#aaa;
+    }
+    
+    /* PESAN */
+    .pesan-box{
+        background:#181818;
+        padding:15px;
+        margin:15px auto;
+        max-width:500px;
+        border-radius:10px;
+        text-align:left;
+    }
+    
+    button{
+        padding:10px 20px;
+        background:#ff4d6d;
+        color:white;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+    }
+    
+    /* LOGOUT */
+    .logout{
+        position:fixed;
+        top:10px;
+        right:10px;
+        z-index:999;
+    }body{
+    margin:0;
+    font-family:sans-serif;
+    background:black;
+    color:white;
+}
+
+/* PAGE */
+.page{
+    min-height:100vh;
+    padding:50px;
+    text-align:center;
+}
+
+/* ===== HERO KEREN + TYPEWRITER ===== */
+/* ===== HERO TEXT CENTER KEREN ===== */
+.hero{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+/* PARAGRAF TYPEWRITER TENGAH */
+#typing{
+    text-align:center;
+    max-width:700px;
+    margin-top:20px;
+    font-size:18px;
+    color:#aaa;
+
+    white-space:normal;   /* biar bisa turun baris */
+    line-height:1.6;
+}
+.carousel{
+    display:flex;
+    gap:25px;
+    padding:20px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    scroll-behavior:smooth;
+
+    /* INI KUNCI ANTI KEDUT */
+    scroll-snap-type:x mandatory;
+}
+
+/* hilangin scrollbar */
+.carousel::-webkit-scrollbar{
+    display:none;
+}
+
+/* ===== CARD ===== */
+.card{
+    min-width:220px;
+    flex-shrink:0;
+
+    background:#181818;
+    padding:15px;
+    border-radius:12px;
+    cursor:pointer;
+
+    transition:0.3s;
+
+    /* SNAP KE TENGAH */
+    scroll-snap-align:center;
+}
+
+/* hover doang biar simpel */
+.card:hover{
+    background:#282828;
+    transform:scale(1.05);
+}
+/* COVER */
+.card{
+    width:160px;          /* lebih kecil & mirip Spotify */
+    flex-shrink:0;
+    background:#181818;
+    padding:12px;
+    border-radius:12px;
+    scroll-snap-align:center;
+}
+
+.card img{
+    width:100%;
+    height:160px;         /* kunci biar kotak rapi */
+    object-fit:cover;
+    border-radius:10px;
+}
+/* TEXT */
+.info{
+    margin-top:10px;
+    text-align:left;
+}
+
+.info p{
+    color:#aaa;
+}
+
+/* FOTO */
+.gallery img{
+    width:300px;
+    margin:20px;
+    border-radius:10px;
+}
+
+/* ANIMASI */
+.fade{
+    opacity:0;
+    transform:translateY(50px);
+    transition:1s;
+}
+.fade.show{
+    opacity:1;
+    transform:translateY(0);
+}
+/* FOTO + TEKS SEJAJAR */
+.foto-item{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:40px;
+    margin:60px 0;
+}
+
+/* FOTO JADI KOTAK 1:1 */
+.foto-item img{
+    width:300px;
+    aspect-ratio:1/1; /* bikin kotak */
+    object-fit:cover;
+    border-radius:10px;
+}
+
+/* TEXT */
+.text{
+    max-width:300px;
+    text-align:left;
+}
+
+.text p{
+    color:#aaa;
+}
+button{
+    padding:10px 20px;
+    background:#ff4d6d;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+textarea, input{
+    padding:10px;
+    width:300px;
+    border-radius:8px;
+    border:none;
+}
+
+.pesan-box{
+    background:#181818;
+    padding:15px;
+    margin:15px auto;
+    max-width:500px;
+    border-radius:10px;
+    text-align:left;
+    color:white; /* 🔥 INI YANG PENTING */
+}
+
+.pesan-box b{
+    color:white;
+}
+
+.pesan-box h4{
+    color:white; /* judul juga putih */
+}
+
+.pesan-box p{
+    color:white; /* isi pesan putih */
+}
+
+.foto-box img{
+    width:250px;
+    height:250px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    background:#424e8a;
+    padding:30px 20px;
+    text-align:center;
+    border-top:1px solid #222;
+    margin-top:50px;
+}
+
+footer h3{
+    margin-bottom:10px;
+    color:#ff4d6d;
+}
+
+.socials{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
+.socials a{
+    color:white;
+    text-decoration:none;
+    padding:8px 12px;
+    border:1px solid #333;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.socials a:hover{
+    background:#ff4d6d;
+    transform:scale(1.05);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .foto-item{
+        flex-direction:column;
+        text-align:center;
+    }
+    .text{
+        text-align:center;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginPage" class="login-wrapper">
+    <div class="login-card">
+        <h2>💖 Memory Kita</h2>
+        <p style="color:#aaa;font-size:12px;">Masukkan password</p>
+
+        <input type="password" id="password" placeholder="Password...">
+        <button onclick="login()">Masuk</button>
+        <p id="error"></p>
+    </div>
+</div>
+
+<!-- LOGOUT -->
+<button class="logout" onclick="logout()">Logout</button>
+
+<!-- HALAMAN 1 -->
+<section class="page hero">
+    <h1 class="title">Kisah Kita</h1>
+    <p id="typing"></p>
+</section>
+
+<!-- HALAMAN 2 MUSIK -->
+<section class="page music">
+    <h2>Lagu Favorit Kita</h2>
+
+    <div class="carousel">
+
+        <div class="card" onclick="playSong('lagu1.mp3')">
+            <img src="16.jpeg">
+            <div class="info">
+                <h3>Penjaga Hati</h3>
+                <p>Nadhif Basalamah</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="playSong('lagu2.mp3')">
+            <img src="20.jpeg">
+            <div class="info">
+                <h3>Kamu yang Kutunggu</h3>
+                <p>Rossa feat. Afgan</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="playSong('lagu3.mp3')">
+            <img src="1.jpeg">
+            <div class="info">
+                <h3>Bergema Selamanya</h3>
+                <p>Nadhif Basalamah</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="playSong('lagu4.mp3')">
+            <img src="15.jpeg">
+            <div class="info">
+                <h3>Kota Ini Tak Sama Tanpamu</h3>
+                <p>Nadhif Basalamah</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="playSong('lagu5.mp3')">
+            <img src="9.jpeg">
+            <div class="info">
+                <h3>Laksana Surgaku</h3>
+                <p>Dudy oris</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TANPA BUTTON -->
+    <audio id="audio"></audio>
+</section>
+
+<!-- FOTO -->
+<section class="page gallery">
+    <h2>Foto Kita</h2>
+
+    <div class="foto-item fade">
+        <img src="1.jpeg">
+        <div class="text">
+            <h3>Momen Pertama</h3>
+            <p>Momen awal kita dimulai disini.</p>
+        </div>
+    </div>
+
+    <div class="foto-item fade">
+        <img src="2.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Adek tidak tau sejak kapan adek mulai jatuh cinta dengan mas</p>
+        </div>
+    </div>
+
+    <div class="foto-item fade">
+        <img src="3.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Tapi tanpa mas sadari mas sudah jadi tempat ternyaman adek saat ini hingga nanti</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="4.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Senyuman dan canda tawamu adalah alasan buatku bahagia setiap harinya</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="5.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Setiap senyuman mas adalah alasan adek bertahan di hari yang berat</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="6.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Adek jatuh cinta bukan karena alasan, tapi karena orang yg adek cintai itu mas</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="7.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Semesta mungkin luas, tapi adek hanya ingin menetap di hati mas selamanya</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="9.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Mas bukan sekadar cerita, mas adalah seluruh bab terbaik dalam hidup adek</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="10.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Kebahagiaan terbesar adek saat ini adalah mas</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="11.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Jika dunia mas sedang tidak baik baik aja,masih ada adek yg selalu ada buat mas</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="12.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Adek ngga butuh dunia, cukup mas yang jadi dunia adek</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="13.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Adek mencintai mas tanpa jeda, tanpa alasan, tanpa batas</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="14.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Baik buruknya kita,hanya kita yg tau orang lain tidak tau apa"</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="15.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Hiduplah selalu beriringan dengan adek yaa</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="16.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Mas mungkin adalah semua jawaban dari doa- doa adek</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="17.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Diantara banyaknya pilihan, adek akan selalu memilih mas</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="18.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Mas adalah hal terbaik yang pernah adek temukan tanpa sengaja</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="19.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Bahkan hal sederhana sekalipun jika bersama mas maka akan terasa luar biasa</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="20.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Tidak semua orang beruntung, tapi adek beruntung memiliki mas</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="21.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Setiap foto kita adalah bukti kalau bahagia itu nyata adanya</p>
+        </div>
+    </div>
+    <div class="foto-item fade">
+        <img src="22.jpeg">
+        <div class="text">
+            <h3>Cerita Kita</h3>
+            <p>Karena adek dan mas adalah suatu kisah yang tidak akan pernah ada akhirnya</p>
+        </div>
+    </div>
+
+
+</section>
+<!-- VIDEO -->
+<section class="page video">
+    <h2>Momen Video</h2>
+
+    <video controls width="300">
+        <source src="vid1.mp4" type="video/mp4">
+    </video>
+    <video controls width="300">
+        <source src="vid2.mp4" type="video/mp4">
+    </video>
+
+</section>
+<section class="page">
+    <h2>Pesan Kita</h2>
+    <div id="listPesan"></div>
+</section>
+    <!-- ===== KIRIM PESAN ===== -->
+<section class="page">
+    <h2>Kirim Pesan</h2>
+
+    <form id="formPesan">
+        <input type="text" id="namaPesan" placeholder="Nama" required><br><br>
+    
+        <textarea id="isiPesan" placeholder="Tulis pesan..." required></textarea><br><br>
+    
+        <button type="submit">Kirim Pesan</button>
+    </form>
+</section>
+
+
+<script>
+    /* ===== LOGIN ===== */
+function login(){
+    let pass = document.getElementById("password").value;
+
+    if(pass === "davina"){
+        localStorage.setItem("login","true");
+
+        let lp = document.getElementById("loginPage");
+        lp.style.opacity="0";
+        lp.style.transform="scale(1.2)";
+
+        setTimeout(()=>lp.style.display="none",500);
+
+    } else {
+        document.getElementById("error").innerText = "Password salah!";
+    }
+}
+
+window.onload = function(){
+    if(localStorage.getItem("login") === "true"){
+        document.getElementById("loginPage").style.display="none";
+    }
+}
+
+/* LOGOUT */
+function logout(){
+    localStorage.removeItem("login");
+    location.reload();
+}
+
+/* TYPEWRITER */
+const text = "Semua kenangan & momen kita tersimpan erta tersusun rapih di dalam sini 💖";
+let i=0;
+function type(){
+    if(i<text.length){
+        document.getElementById("typing").innerHTML += text[i];
+        i++;
+        setTimeout(type,50);
+    }
+}
+type();
+
+    // ===== AUDIO =====
+    const audio = document.getElementById("audio");
+    
+    let clickTimer = null;
+    let isPlaying = false;
+    
+    // ===== PLAY / STOP (1x play, 2x stop) =====
+    function playSong(file){
+    
+        // DOUBLE CLICK → STOP
+        if(clickTimer){
+            clearTimeout(clickTimer);
+            clickTimer = null;
+    
+            audio.pause();
+            audio.currentTime = 0;
+            isPlaying = false;
+            return;
+        }
+    
+        // SINGLE CLICK → PLAY
+        clickTimer = setTimeout(() => {
+            audio.src = file;
+            audio.play();
+            isPlaying = true;
+            clickTimer = null;
+        }, 250);
+    }
+    
+    
+    // ===== ANIMASI FOTO SCROLL =====
+    let faders = document.querySelectorAll(".fade");
+    
+    window.addEventListener("scroll", () => {
+        let trigger = window.innerHeight * 0.8;
+    
+        faders.forEach(el => {
+            let top = el.getBoundingClientRect().top;
+    
+            if(top < trigger){
+                el.classList.add("show");
+            } else {
+                el.classList.remove("show");
+            }
+        });
+    });
+    // ===== STORAGE =====
+    let pesan = JSON.parse(localStorage.getItem("pesan")) || [];
+
+// pastikan jalan setelah halaman siap
+window.addEventListener("DOMContentLoaded", function(){
+
+    renderPesan();
+
+    document.getElementById("formPesan").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let nama = document.getElementById("namaPesan").value;
+    let isi = document.getElementById("isiPesan").value;
+
+    // 🔥 ambil waktu sekarang
+    let waktu = new Date().toISOString();
+    pesan.push({
+    nama: nama,
+    isi: isi,
+    waktu: waktu
+    });
+
+    localStorage.setItem("pesan", JSON.stringify(pesan));
+
+    this.reset();
+    renderPesan();
+});
+});
+
+function renderPesan(){
+    let box = document.getElementById("listPesan");
+
+    box.innerHTML = "";
+
+    if(pesan.length === 0){
+        box.innerHTML = "<p style='color:#aaa'>Belum ada pesan</p>";
+        return;
+    }
+
+    pesan.forEach(p=>{
+
+        let waktuAsli = new Date(p.waktu);
+        let tampilWaktu = formatWaktu(waktuAsli);
+
+        box.innerHTML += `
+        <div class="pesan-box">
+            <b>${p.nama}</b><br>
+            <small style="color:#aaa">${tampilWaktu}</small>
+            <p>${p.isi}</p>
+        </div>
+        `;
+    });
+}
+function formatWaktu(date){
+    let now = new Date();
+    let diff = Math.floor((now - date) / 1000); // detik
+
+    if(diff < 60){
+        return "baru saja";
+    }
+
+    let menit = Math.floor(diff / 60);
+    if(menit < 60){
+        return menit + " menit lalu";
+    }
+
+    let jam = Math.floor(menit / 60);
+    if(jam < 24){
+        return jam + " jam lalu";
+    }
+
+    // kalau lebih dari 24 jam
+    return date.toLocaleString("id-ID", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+function logout(){
+    localStorage.removeItem("login");
+    location.reload();
+}
+    </script>
+
+               </body>
+               <footer>
+                <h3>Kita Berdua 💖</h3>
+                <p>Mas & Adek</p>
+            
+                <div class="socials">
+                    <a href="https://www.instagram.com/dvidd_54?igsh=NnY0dW0zaTlxcGVv" target="_blank">IG Mas</a>
+                    <a href="hhttps://www.instagram.com/cloudna.scc?igsh=OWNpdW90dnFncGlj" target="_blank">IG Adek</a>
+                    <a href="https://www.tiktok.com/@al.x.doss?_r=1&_t=ZS-95sdjqiKKHw" target="_blank">TikTok Mas</a>
+                    <a href="https://www.tiktok.com/@im.butterfly8?_r=1&_t=ZS-95sdt5X72Mp" target="_blank">TikTok Adek</a>
+                </div>
+            
+                <p style="color:#28e0b5;margin-top:15px;font-size:12px;">
+                    Made with Davina 💕
+                </p>
+            </footer>
+</html>
